@@ -27,7 +27,18 @@ module.exports = [
       },
     },
   },
-  "strapi::cors",
+  {
+    name: "strapi::cors",
+    config: {
+      origin: [
+        "http://localhost:3000",
+        "https://your-frontend.com", // ganti saat domain sudah ada
+      ],
+      headers: "*",
+      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"],
+      credentials: true,
+    },
+  },
   "strapi::poweredBy",
   "strapi::query",
   "strapi::body",
