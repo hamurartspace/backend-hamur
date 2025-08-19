@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "artwork_archives",
+  "info": {
+    "singularName": "artwork-archive",
+    "pluralName": "artwork-archives",
+    "displayName": "artworkArchive"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "titleArchive": {
+      "type": "string",
+      "required": true
+    },
+    "artistArchive": {
+      "type": "string",
+      "required": true
+    },
+    "descriptionArchive": {
+      "type": "richtext"
+    },
+    "imageArchive": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "collection_archive": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::collection-archive.collection-archive",
+      "inversedBy": "artwork_archives"
+    }
+  }
+}
