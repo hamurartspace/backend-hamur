@@ -32,7 +32,7 @@ module.exports = [
     config: {
       origin: [
         "http://localhost:3000",
-        "https://your-frontend.com", // ganti saat domain sudah ada
+        "https://frontend-hamur.vercel.app/", // ganti saat domain sudah ada
       ],
       headers: "*",
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"],
