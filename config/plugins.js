@@ -1,4 +1,5 @@
 module.exports = ({ env }) => {
+  console.log("plugins.js loaded");
   return {
     upload: {
       config: {
