@@ -40,7 +40,7 @@
     "registrationLink": {
       "type": "string",
       "required": true,
-      "regex": "^https:\\/\\/docs\\.google\\.com\\/forms\\/.*"
+      "regex": "^https?:\\/\\/.*"
     }
   }
 }
