@@ -481,7 +481,7 @@ export interface ApiArtworkArchiveArtworkArchive
 export interface ApiArtworkArtwork extends Struct.CollectionTypeSchema {
   collectionName: 'artworks';
   info: {
-    displayName: 'Artwork';
+    displayName: 'artworkProject';
     pluralName: 'artworks';
     singularName: 'artwork';
   };
@@ -552,7 +552,7 @@ export interface ApiCollectionArchiveCollectionArchive
 export interface ApiCollectionCollection extends Struct.CollectionTypeSchema {
   collectionName: 'collections';
   info: {
-    displayName: 'Collection';
+    displayName: 'collectionProject';
     pluralName: 'collections';
     singularName: 'collection';
   };
@@ -573,6 +573,39 @@ export interface ApiCollectionCollection extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
+  collectionName: 'courses';
+  info: {
+    displayName: 'Course';
+    pluralName: 'courses';
+    singularName: 'course';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.RichText;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::course.course'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    registrationLink: Schema.Attribute.String & Schema.Attribute.Required;
+    schedule: Schema.Attribute.Date & Schema.Attribute.Required;
+    slug: Schema.Attribute.UID<'tittle'> & Schema.Attribute.Required;
+    tittle: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1163,6 +1196,7 @@ declare module '@strapi/strapi' {
       'api::artwork.artwork': ApiArtworkArtwork;
       'api::collection-archive.collection-archive': ApiCollectionArchiveCollectionArchive;
       'api::collection.collection': ApiCollectionCollection;
+      'api::course.course': ApiCourseCourse;
       'api::exhibition.exhibition': ApiExhibitionExhibition;
       'api::program.program': ApiProgramProgram;
       'plugin::content-releases.release': PluginContentReleasesRelease;

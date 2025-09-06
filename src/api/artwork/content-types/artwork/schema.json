@@ -4,7 +4,7 @@
   "info": {
     "singularName": "artwork",
     "pluralName": "artworks",
-    "displayName": "Artwork"
+    "displayName": "artworkProject"
   },
   "options": {
     "draftAndPublish": true
@@ -26,7 +26,12 @@
       "type": "media",
       "multiple": false,
       "required": true,
-      "allowedTypes": ["images", "files", "videos", "audios"]
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     },
     "collection": {
       "type": "relation",
