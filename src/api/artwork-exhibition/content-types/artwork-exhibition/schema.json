@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "artwork_exhibitions",
+  "info": {
+    "singularName": "artwork-exhibition",
+    "pluralName": "artwork-exhibitions",
+    "displayName": "artworkExhibition"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "collection_exhibition": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::collection-exhibition.collection-exhibition",
+      "inversedBy": "artwork_exhibitions"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "artistName": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

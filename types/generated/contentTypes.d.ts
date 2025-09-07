@@ -410,12 +410,12 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiAboutAbout extends Struct.CollectionTypeSchema {
-  collectionName: 'abouts';
+export interface ApiAboutPageAboutPage extends Struct.CollectionTypeSchema {
+  collectionName: 'about_pages';
   info: {
-    displayName: 'about';
-    pluralName: 'abouts';
-    singularName: 'about';
+    displayName: 'aboutPage';
+    pluralName: 'about-pages';
+    singularName: 'about-page';
   };
   options: {
     draftAndPublish: true;
@@ -424,14 +424,17 @@ export interface ApiAboutAbout extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    imageAbout: Schema.Attribute.Media<
+    isiAbout: Schema.Attribute.RichText & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::about-page.about-page'
+    > &
+      Schema.Attribute.Private;
+    mediaImage: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios'
     >;
-    isiAbout: Schema.Attribute.RichText & Schema.Attribute.Required;
-    judulAbout: Schema.Attribute.String & Schema.Attribute.Required;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::about.about'> &
-      Schema.Attribute.Private;
+    moto: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -439,39 +442,37 @@ export interface ApiAboutAbout extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiArtworkArchiveArtworkArchive
+export interface ApiArtworkExhibitionArtworkExhibition
   extends Struct.CollectionTypeSchema {
-  collectionName: 'artwork_archives';
+  collectionName: 'artwork_exhibitions';
   info: {
-    displayName: 'artworkArchive';
-    pluralName: 'artwork-archives';
-    singularName: 'artwork-archive';
+    displayName: 'artworkExhibition';
+    pluralName: 'artwork-exhibitions';
+    singularName: 'artwork-exhibition';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    artistArchive: Schema.Attribute.String & Schema.Attribute.Required;
-    collection_archive: Schema.Attribute.Relation<
+    artistName: Schema.Attribute.String & Schema.Attribute.Required;
+    collection_exhibition: Schema.Attribute.Relation<
       'manyToOne',
-      'api::collection-archive.collection-archive'
+      'api::collection-exhibition.collection-exhibition'
     >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    descriptionArchive: Schema.Attribute.RichText;
-    imageArchive: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios'
-    > &
+    description: Schema.Attribute.RichText;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
       Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::artwork-archive.artwork-archive'
+      'api::artwork-exhibition.artwork-exhibition'
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    titleArchive: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -516,33 +517,44 @@ export interface ApiArtworkArtwork extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiCollectionArchiveCollectionArchive
+export interface ApiCollectionExhibitionCollectionExhibition
   extends Struct.CollectionTypeSchema {
-  collectionName: 'collection_archives';
+  collectionName: 'collection_exhibitions';
   info: {
-    displayName: 'collectionArchive';
-    pluralName: 'collection-archives';
-    singularName: 'collection-archive';
+    displayName: 'collectionExhibition';
+    pluralName: 'collection-exhibitions';
+    singularName: 'collection-exhibition';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    artwork_archives: Schema.Attribute.Relation<
+    artwork_exhibitions: Schema.Attribute.Relation<
       'oneToMany',
-      'api::artwork-archive.artwork-archive'
+      'api::artwork-exhibition.artwork-exhibition'
+    >;
+    coverImage: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
     >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    description: Schema.Attribute.RichText;
+    endDate: Schema.Attribute.Date & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::collection-archive.collection-archive'
+      'api::collection-exhibition.collection-exhibition'
     > &
       Schema.Attribute.Private;
-    nameArchive: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    startDate: Schema.Attribute.Date & Schema.Attribute.Required;
+    statusEvent: Schema.Attribute.Enumeration<
+      ['current', 'upcoming', 'archived']
+    > &
+      Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -606,40 +618,6 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
     schedule: Schema.Attribute.Date & Schema.Attribute.Required;
     slug: Schema.Attribute.UID<'tittle'> & Schema.Attribute.Required;
     tittle: Schema.Attribute.String & Schema.Attribute.Required;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiExhibitionExhibition extends Struct.CollectionTypeSchema {
-  collectionName: 'exhibitions';
-  info: {
-    displayName: 'Exhibition';
-    pluralName: 'exhibitions';
-    singularName: 'exhibition';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    endDate: Schema.Attribute.Date & Schema.Attribute.Required;
-    image: Schema.Attribute.Media<'images'>;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::exhibition.exhibition'
-    > &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    startDate: Schema.Attribute.Date & Schema.Attribute.Required;
-    statusEvent: Schema.Attribute.Enumeration<['current', 'upcoming']> &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'upcoming'>;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1191,13 +1169,12 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::about.about': ApiAboutAbout;
-      'api::artwork-archive.artwork-archive': ApiArtworkArchiveArtworkArchive;
+      'api::about-page.about-page': ApiAboutPageAboutPage;
+      'api::artwork-exhibition.artwork-exhibition': ApiArtworkExhibitionArtworkExhibition;
       'api::artwork.artwork': ApiArtworkArtwork;
-      'api::collection-archive.collection-archive': ApiCollectionArchiveCollectionArchive;
+      'api::collection-exhibition.collection-exhibition': ApiCollectionExhibitionCollectionExhibition;
       'api::collection.collection': ApiCollectionCollection;
       'api::course.course': ApiCourseCourse;
-      'api::exhibition.exhibition': ApiExhibitionExhibition;
       'api::program.program': ApiProgramProgram;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
